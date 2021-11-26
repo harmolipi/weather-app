@@ -12,6 +12,23 @@
     <p id="temperature"></p>
     <form>
       <input type="text" id="city" placeholder="City" />
+      <input
+        type="radio"
+        id="fahrenheit"
+        class="unit-selector"
+        name="units"
+        value="imperial"
+        checked
+      />
+      <label for="fahrenheit">F°</label>
+      <input
+        type="radio"
+        id="celsius"
+        class="unit-selector"
+        name="units"
+        value="metric"
+      />
+      <label for="celsius">C°</label>
       <button type="submit" id="search">Search</button>
     </form>
     <script src="scripts/main.js"></script>
