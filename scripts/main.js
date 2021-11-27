@@ -4,6 +4,7 @@ const temperature = document.querySelector('#temperature');
 const city = document.querySelector('#city');
 const unitsSelectors = document.querySelectorAll('.unit-selector');
 const search = document.querySelector('#search');
+const img = document.querySelector('img');
 
 async function getWeather(city) {
   const units = getUnits();
@@ -59,11 +60,26 @@ function setLoading() {
 }
 
 function updateStyles(weather) {
+  img.src = '';
   body.classList.remove('dark-mode');
   const currentDateTime = Date.now();
-  const currentTime = currentDateTime / 1000;
+  const currentTime = currentDateTime / 1000; // not sure why but it works (I think)
   if (currentTime < weather.sunrise || currentTime > weather.sunset) {
     body.classList.add('dark-mode');
+  }
+  displayGif(weather.description);
+}
+
+async function displayGif(weatherDescription) {
+  try {
+    const weatherGif = await fetch(
+      `https://api.giphy.com/v1/gifs/translate?api_key=k4qXK4p5ZdNoUEolAurib521ZYrPolMU&s=${weatherDescription}`,
+      { mode: 'cors' }
+    );
+    const processedWeatherGif = await weatherGif.json();
+    img.src = processedWeatherGif.data.images.original.url;
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -71,5 +87,3 @@ search.addEventListener('click', (e) => {
   e.preventDefault();
   updateWeatherDisplay(city.value);
 });
-
-console.log(Date.now());
